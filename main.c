@@ -123,5 +123,9 @@ task usercontrol()
 			motor[liftOne] = -127;
 			motor[liftTwo] = -127;
 		}
+		else{
+			motor[liftOne] = 0;
+			motor[liftTwo] = 0;
+		}
   }
 }
