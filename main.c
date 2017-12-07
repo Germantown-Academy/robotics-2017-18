@@ -33,13 +33,48 @@
 /*  function is only called once after the cortex has been powered on and    */
 /*  not every time that the robot is disabled.                               */
 /*---------------------------------------------------------------------------*/
-
+bool autonSide = true;
 void pre_auton()
 {
   // Set bStopTasksBetweenModes to false if you want to keep user created tasks
   // running between Autonomous and Driver controlled modes. You will need to
   // manage all user created tasks if set to false.
   bStopTasksBetweenModes = true;
+
+  //activate LCD
+  bDisplayCompetitionStatusOnLcd = true;
+  bLCDBacklight = true;
+  /*
+  int volts =  nImmediateBatteryLevel;
+  string voltage = sprintf("", "%d", volts);
+  displayLCDCenteredString(0, "LEFT");
+  displayLCDCenteredString(1, voltage);
+  while(nLCDButtons != 2){ //While center not pressed
+    if(nLCDButtons == 0) //No button pressed
+      wait1Msec(10); //Do nothing
+    else{ //Some button was pressed
+      if(nLCDButtons == 1){
+        autonSide = true; //Decrement if left press
+      }
+      else if(nLCDButtons == 4){
+        autonSide = false; //Increment if right press
+      }
+      //Update display
+      clearLCDLine(0);
+      if(autonSide){
+      	displayLCDCenteredString(0, "LEFT");
+    	}else{
+    		displayLCDCenteredString(0, "RIGHT");
+    	}
+
+      while(nLCDButtons != 0){//Wait for release
+        wait1Msec(10); //Wait for multitasking.
+      }
+  	}
+  }
+  */
+}
+
 
 	// Set bDisplayCompetitionStatusOnLcd to false if you don't want the LCD
 	// used by the competition include file, for example, you might want
@@ -48,7 +83,6 @@ void pre_auton()
 
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
-}
 
 /*---------------------------------------------------------------------------*/
 /*                                                                           */
@@ -61,9 +95,16 @@ void pre_auton()
 /*---------------------------------------------------------------------------*/
 
 task autonomous(){
-	motor[rightWheel] = 127;
-	motor[leftWheel] = 127;
-	delay(1000);
+	if(autonSide){
+		//turn to left
+		motor[rightWheel] = 127;
+		motor[leftWheel] = -127;
+		delay(100);
+		//move forward
+		motor[rightWheel] = 127;
+		motor[leftWheel] = 127;
+		delay(1000);
+	}
 }
 
 /*---------------------------------------------------------------------------*/
@@ -76,30 +117,6 @@ task autonomous(){
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
-//Move with Buttons
-void buttonControls(){
-  	if(vexRT[Btn8U]==0&&vexRT[Btn8D]==0)
-		{
-			motor[rightWheel]  = 0;
-			motor[rightWheel]  = 0;
-		}
-		else if(vexRT[Btn8U]==1){
-			motor[rightWheel] = 127;
-			motor[leftWheel] = 127;
-		}
-		else if(vexRT[Btn8D]==1){
-			motor[rightWheel] = -127;
-			motor[leftWheel] = -127;
-		}
-		else if(vexRT[Btn8R]==1){
-			motor[rightWheel] = 127;
-			motor[leftWheel] = -127;
-		}
-		else if(vexRT[Btn8L]==1){
-			motor[rightWheel] = -127;
-			motor[leftWheel] = 127;
-		}
-}
 
 task usercontrol()
 {
@@ -107,8 +124,6 @@ task usercontrol()
 
   while (true)
   {
-  	//move with buttons
-  	buttonControls();
 		//Move with joysticks
 		motor[rightWheel] = vexRT[Ch2] - vexRT[Ch1];
 		motor[leftWheel] = vexRT[Ch2] + vexRT[Ch1];
