@@ -3,6 +3,7 @@
 #pragma config(Motor,  port2,           raiseOne,      tmotorServoContinuousRotation, openLoop, reversed)
 #pragma config(Motor,  port3,           rightWheel,    tmotorServoContinuousRotation, openLoop, reversed)
 #pragma config(Motor,  port5,           leftWheel,     tmotorServoContinuousRotation, openLoop)
+#pragma config(Motor,  port6,           grabber,       tmotorServoContinuousRotation, openLoop)
 #pragma config(Motor,  port7,           raiseTwo,      tmotorServoContinuousRotation, openLoop)
 #pragma config(Motor,  port8,           liftOne,       tmotorServoContinuousRotation, openLoop)
 #pragma config(Motor,  port9,           liftTwo,       tmotorServoContinuousRotation, openLoop, reversed)
@@ -59,8 +60,10 @@ void pre_auton()
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
-task autonomous()
-{
+task autonomous(){
+	motor[rightWheel] = 127;
+	motor[leftWheel] = 127;
+	delay(1000);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -114,7 +117,7 @@ task usercontrol()
 		motor[raiseOne] = vexRT[Ch3];
 		motor[raiseTwo] = vexRT[Ch3];
 
-		//raise and lift x-lift
+		//raise and lift x-lift in unison
 		if(vexRT[Btn7U]==1){
 			motor[liftOne] = 127;
 			motor[liftTwo] = 127;
@@ -123,9 +126,27 @@ task usercontrol()
 			motor[liftOne] = -127;
 			motor[liftTwo] = -127;
 		}
+
+		//one side x-lift at a time
+		else if(vexRT[Btn8L]==1){
+			motor[liftOne] = 127;
+		}
+		else if(vexRT[Btn8R]==1){
+			motor[liftTwo] = 127;
+		}
 		else{
 			motor[liftOne] = 0;
 			motor[liftTwo] = 0;
+		}
+
+		//Grab with x-lift rubbers
+		if(vexRT[Btn7L]==1){
+			motor[grabber] = 127;
+		}
+		else if(vexRT[Btn7R]==1){
+			motor[grabber] = -127;
+		}else{
+			motor[grabber] = 0;
 		}
   }
 }
