@@ -96,14 +96,29 @@ void pre_auton()
 
 task autonomous(){
 	if(autonSide){
-		//turn to left
-		motor[rightWheel] = 127;
-		motor[leftWheel] = -127;
-		delay(100);
+		//pick up
+		motor[grabber] = -127;
+		delay(200);
+		motor[grabber] = 0;
+		//lift
+		motor[liftOne] = 127;
+		motor[liftTwo] = 127;
+		delay(1500);
+		motor[liftOne] = 0;
+		motor[liftTwo] = 0;
 		//move forward
-		motor[rightWheel] = 127;
-		motor[leftWheel] = 127;
-		delay(1000);
+		motor[rightWheel] = 60;
+		motor[leftWheel] = 60;
+		delay(3800);
+		motor[rightWheel] = -50;
+		motor[leftWheel] = -50;
+		delay(420);
+		motor[rightWheel] = 0;
+		motor[leftWheel] = 0;
+		//drop cone
+		motor[grabber] = 127;
+		delay(200);
+		motor[grabber] = 0;
 	}
 }
 
@@ -124,9 +139,20 @@ task usercontrol()
 
   while (true)
   {
+  	//LCD
+  /*
+	  bDisplayCompetitionStatusOnLcd = true;
+	  bLCDBacklight = true;
+	  int volts =  nImmediateBatteryLevel;
+	  string voltage = sprintf("", "%d", volts);
+	  displayLCDCenteredString(0, "LEFT");
+	  displayLCDCenteredString(1, voltage);
+	  */
+
 		//Move with joysticks
-		motor[rightWheel] = vexRT[Ch2] - vexRT[Ch1];
-		motor[leftWheel] = vexRT[Ch2] + vexRT[Ch1];
+		motor[rightWheel] = vexRT[Ch2] - vexRT[Ch1] -vexRT[Ch4];
+		motor[leftWheel] = vexRT[Ch2] + vexRT[Ch1] + vexRT[Ch4];
+
 
 		//raise and lower lift
 		motor[raiseOne] = vexRT[Ch3];
@@ -141,27 +167,20 @@ task usercontrol()
 			motor[liftOne] = -127;
 			motor[liftTwo] = -127;
 		}
-
 		//one side x-lift at a time
-		else if(vexRT[Btn8L]==1){
+		else if(vexRT[Btn8LXmtr2]==1){
 			motor[liftOne] = 127;
 		}
-		else if(vexRT[Btn8R]==1){
+		else if(vexRT[Btn8RXmtr2]==1){
 			motor[liftTwo] = 127;
 		}
+		//x-lift joy stick
 		else{
-			motor[liftOne] = 0;
-			motor[liftTwo] = 0;
-		}
+			motor[liftOne] = vexRT[Ch2Xmtr2];
+			motor[liftTwo] = vexRT[Ch2Xmtr2];
+	 	}
 
-		//Grab with x-lift rubbers
-		if(vexRT[Btn7L]==1){
-			motor[grabber] = 127;
-		}
-		else if(vexRT[Btn7R]==1){
-			motor[grabber] = -127;
-		}else{
-			motor[grabber] = 0;
-		}
+		//Grab with x-lift rubbers joystick
+		motor[grabber] = vexRT[Ch4Xmtr2];
   }
 }
