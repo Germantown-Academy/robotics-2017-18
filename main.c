@@ -110,9 +110,6 @@ task autonomous(){
 		motor[rightWheel] = 60;
 		motor[leftWheel] = 60;
 		delay(3800);
-		motor[rightWheel] = -50;
-		motor[leftWheel] = -50;
-		delay(420);
 		motor[rightWheel] = 0;
 		motor[leftWheel] = 0;
 		//drop cone
