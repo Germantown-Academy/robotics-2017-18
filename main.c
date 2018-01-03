@@ -146,16 +146,16 @@ task usercontrol()
 	  displayLCDCenteredString(1, voltage);
 	  */
 
-		//Move with joysticks
+		//MOVE with joysticks
 		motor[rightWheel] = vexRT[Ch2] - vexRT[Ch1] -vexRT[Ch4];
 		motor[leftWheel] = vexRT[Ch2] + vexRT[Ch1] + vexRT[Ch4];
 
 
-		//raise and lower lift
-		motor[raiseOne] = vexRT[Ch3];
-		motor[raiseTwo] = vexRT[Ch3];
+		//raise and lower lift MOBILE GOAL
+		motor[raiseOne] = vexRT[Ch3Xmtr2];
+		motor[raiseTwo] = vexRT[Ch3Xmtr2];
 
-		//raise and lift x-lift in unison
+		//raise and lift X-LIFT in unison
 		if(vexRT[Btn7U]==1){
 			motor[liftOne] = 127;
 			motor[liftTwo] = 127;
@@ -177,7 +177,7 @@ task usercontrol()
 			motor[liftTwo] = vexRT[Ch2Xmtr2];
 	 	}
 
-		//Grab with x-lift rubbers joystick
+		//GRAB with x-lift RUBBERS joystick
 		motor[grabber] = vexRT[Ch4Xmtr2];
   }
 }
