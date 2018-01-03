@@ -178,6 +178,6 @@ task usercontrol()
 	 	}
 
 		//Grab with x-lift rubbers joystick
-		motor[grabber] = vexRT[Ch4Xmtr2]/2;
+		motor[grabber] = vexRT[Ch4Xmtr2];
   }
 }
