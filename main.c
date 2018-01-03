@@ -129,6 +129,15 @@ task autonomous(){
 /*---------------------------------------------------------------------------*/
 
 
+//DEADBAND
+int deadBand(int val){
+	if(fabs(val) <= 10){
+		return(0);
+	}else{
+		return(val);
+	}
+}
+
 task usercontrol()
 {
   // User control code here, inside the loop
@@ -146,13 +155,13 @@ task usercontrol()
 	  */
 
 		//MOVE with joysticks
-		motor[rightWheel] = vexRT[Ch2] - vexRT[Ch1] -vexRT[Ch4];
-		motor[leftWheel] = vexRT[Ch2] + vexRT[Ch1] + vexRT[Ch4];
+		motor[rightWheel] = deadBand(vexRT[Ch2]) - deadBand(vexRT[Ch1]) - deadBand(vexRT[Ch4]);
+		motor[leftWheel] = deadBand(vexRT[Ch2]) + deadBand(vexRT[Ch1]) + deadBand(vexRT[Ch4]);
 
 
 		//raise and lower lift MOBILE GOAL
-		motor[raise] = vexRT[Ch3Xmtr2];
-		motor[raise] = vexRT[Ch3Xmtr2];
+		motor[raise] = deadBand(vexRT[Ch3Xmtr2]);
+		motor[raise] = deadBand(vexRT[Ch3Xmtr2]);
 
 		//raise and lift X-LIFT in unison
 		if(vexRT[Btn7U]==1){
@@ -172,11 +181,11 @@ task usercontrol()
 		}
 		//x-lift joy stick
 		else{
-			motor[liftOne] = vexRT[Ch2Xmtr2];
-			motor[liftTwo] = vexRT[Ch2Xmtr2];
+			motor[liftOne] = deadBand(vexRT[Ch2Xmtr2]);
+			motor[liftTwo] = deadBand(vexRT[Ch2Xmtr2]);
 	 	}
 
 		//GRAB with x-lift RUBBERS joystick
-		motor[grabber] = vexRT[Ch4Xmtr2];
+		motor[grabber] = deadBand(vexRT[Ch4Xmtr2]);
   }
 }
