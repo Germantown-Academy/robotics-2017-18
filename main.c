@@ -107,6 +107,10 @@ task autonomous(){
 		delay(1500);
 		motor[liftOne] = 0;
 		motor[liftTwo] = 0;
+		//lower mobile goal raiser
+		motor[raise] = -127;
+		delay(100);
+		motor[raise] = 0;
 		//move forward
 		motor[rightWheel] = 60;
 		motor[leftWheel] = 60;
@@ -121,6 +125,66 @@ task autonomous(){
 		motor[grabber] = 127;
 		delay(200);
 		motor[grabber] = 0;
+		//pick mobile goal
+		motor[raise] = 127;
+		delay(1000);
+		motor[raise] = 0;
+		//reverse
+		motor[rightWheel] = -60;
+		motor[leftWheel] = -60;
+		motor[rightWheelTwo] = -60;
+		motor[leftWheelTwo] = -60;
+		delay(2000);
+		motor[rightWheel] = 0;
+		motor[leftWheel] = 0;
+		motor[rightWheelTwo] = 0;
+		motor[leftWheelTwo] = 0;
+		//turn right 90
+		motor[rightWheel] = -60;
+		motor[rightWheelTwo] = -60;
+		delay(1000);
+		motor[rightWheel] = 0;
+		motor[rightWheelTwo] = 0;
+		//forward a tad
+		motor[rightWheel] = 60;
+		motor[leftWheel] = 60;
+		motor[rightWheelTwo] = 60;
+		motor[leftWheelTwo] = 60;
+		delay(1000);
+		motor[rightWheel] = 0;
+		motor[leftWheel] = 0;
+		motor[rightWheelTwo] = 0;
+		motor[leftWheelTwo] = 0;
+		//turn right 90
+		motor[rightWheel] = -60;
+		motor[rightWheelTwo] = -60;
+		delay(1000);
+		motor[rightWheel] = 0;
+		motor[rightWheelTwo] = 0;
+		//forward
+		motor[rightWheel] = 60;
+		motor[leftWheel] = 60;
+		motor[rightWheelTwo] = 60;
+		motor[leftWheelTwo] = 60;
+		delay(2800);
+		motor[rightWheel] = 0;
+		motor[leftWheel] = 0;
+		motor[rightWheelTwo] = 0;
+		motor[leftWheelTwo] = 0;
+		//drop
+		motor[raise] = -127;
+		delay(1000);
+		motor[raise] = 0;
+		//backup
+		motor[rightWheel] = -60;
+		motor[leftWheel] = -60;
+		motor[rightWheelTwo] = -60;
+		motor[leftWheelTwo] = -60;
+		delay(1000);
+		motor[rightWheel] = 0;
+		motor[leftWheel] = 0;
+		motor[rightWheelTwo] = 0;
+		motor[leftWheelTwo] = 0;
 	}
 }
 
