@@ -166,7 +166,7 @@ task autonomous(){
 		motor[leftWheel] = 60;
 		motor[rightWheelTwo] = 60;
 		motor[leftWheelTwo] = 60;
-		delay(2800);
+		delay(2500);
 		motor[rightWheel] = 0;
 		motor[leftWheel] = 0;
 		motor[rightWheelTwo] = 0;
