@@ -154,7 +154,7 @@ task autonomous(){
 		motor[rightWheelTwo] = -60;
 		motor[leftWheel] = 60;
 		motor[leftWheelTwo] = 60;
-		delay(1700);
+		delay(2500);
 		motor[rightWheel] = 0;
 		motor[rightWheelTwo] = 0;
 		motor[leftWheel] = 0;
@@ -164,7 +164,7 @@ task autonomous(){
 		motor[leftWheel] = 60;
 		motor[rightWheelTwo] = 60;
 		motor[leftWheelTwo] = 60;
-		delay(2100);
+		delay(1300);
 		motor[rightWheel] = 0;
 		motor[leftWheel] = 0;
 		motor[rightWheelTwo] = 0;
@@ -174,7 +174,7 @@ task autonomous(){
 		motor[rightWheelTwo] = -60;
 		motor[leftWheel] = 60;
 		motor[leftWheelTwo] = 60;
-		delay(1800);
+		delay(1100);
 		motor[rightWheel] = 0;
 		motor[rightWheelTwo] = 0;
 		motor[leftWheel] = 0;
@@ -184,7 +184,7 @@ task autonomous(){
 		motor[leftWheel] = 60;
 		motor[rightWheelTwo] = 60;
 		motor[leftWheelTwo] = 60;
-		delay(3500);
+		delay(2000);
 		motor[rightWheel] = 0;
 		motor[leftWheel] = 0;
 		motor[rightWheelTwo] = 0;
@@ -192,11 +192,6 @@ task autonomous(){
 		//drop
 		motor[raise] = -127;
 		delay(1000);
-		motor[raise] = 0;
-		delay(200);
-		//raise mobile raiser a bit
-		motor[raise] = 127;
-		delay(300);
 		motor[raise] = 0;
 		//backup
 		motor[rightWheel] = -127;
