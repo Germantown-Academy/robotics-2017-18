@@ -1,5 +1,6 @@
 #pragma config(UART_Usage, UART1, uartVEXLCD, baudRate19200, IOPins, None, None)
 #pragma config(Sensor, dgtl3,  led,            sensorLEDtoVCC)
+#pragma config(Motor,  port1,           pusher,        tmotorVex393HighSpeed_HBridge, openLoop)
 #pragma config(Motor,  port2,           grabber,       tmotorServoContinuousRotation, openLoop, reversed)
 #pragma config(Motor,  port3,           rightWheel,    tmotorServoContinuousRotation, openLoop, reversed)
 #pragma config(Motor,  port4,           rightWheelTwo, tmotorServoContinuousRotation, openLoop, reversed)
@@ -150,31 +151,11 @@ task autonomous(){
 		motor[rightWheelTwo] = 0;
 		motor[leftWheelTwo] = 0;
 		//turn right 90
-		motor[rightWheel] = -60;
-		motor[rightWheelTwo] = -60;
-		motor[leftWheel] = 60;
-		motor[leftWheelTwo] = 60;
-		delay(2500);
-		motor[rightWheel] = 0;
-		motor[rightWheelTwo] = 0;
-		motor[leftWheel] = 0;
-		motor[leftWheelTwo] = 0;
-		//forward a tad
 		motor[rightWheel] = 60;
-		motor[leftWheel] = 60;
 		motor[rightWheelTwo] = 60;
-		motor[leftWheelTwo] = 60;
-		delay(1300);
-		motor[rightWheel] = 0;
-		motor[leftWheel] = 0;
-		motor[rightWheelTwo] = 0;
-		motor[leftWheelTwo] = 0;
-		//turn right 90
-		motor[rightWheel] = -60;
-		motor[rightWheelTwo] = -60;
-		motor[leftWheel] = 60;
-		motor[leftWheelTwo] = 60;
-		delay(1100);
+		motor[leftWheel] = -60;
+		motor[leftWheelTwo] = -60;
+		delay(3200);
 		motor[rightWheel] = 0;
 		motor[rightWheelTwo] = 0;
 		motor[leftWheel] = 0;
@@ -184,7 +165,7 @@ task autonomous(){
 		motor[leftWheel] = 60;
 		motor[rightWheelTwo] = 60;
 		motor[leftWheelTwo] = 60;
-		delay(2000);
+		delay(3500);
 		motor[rightWheel] = 0;
 		motor[leftWheel] = 0;
 		motor[rightWheelTwo] = 0;
@@ -269,11 +250,24 @@ task usercontrol()
 		else if(vexRT[Btn8RXmtr2]==1){
 			motor[liftTwo] = 127;
 		}
+
 		//x-lift joy stick
 		else{
 			motor[liftOne] = deadBand(vexRT[Ch2Xmtr2]);
 			motor[liftTwo] = deadBand(vexRT[Ch2Xmtr2]);
 	 	}
+
+	 	//activate pusher
+		if(vexRT[Btn7UXmtr2]==1){
+			motor[pusher] = 127;
+		}
+		//retract pusher
+		else if(vexRT[Btn7DXmtr2]==1){
+			motor[pusher] = -127;
+		}
+		else{
+			motor[pusher] = 0;
+		}
 
 		//GRAB with x-lift RUBBERS joystick
 		motor[grabber] = deadBand(vexRT[Ch4Xmtr2]);
