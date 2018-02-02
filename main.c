@@ -1,10 +1,13 @@
 #pragma config(UART_Usage, UART1, uartVEXLCD, baudRate19200, IOPins, None, None)
+#pragma config(I2C_Usage, I2C1, i2cSensors)
 #pragma config(Sensor, dgtl3,  led,            sensorLEDtoVCC)
+#pragma config(Sensor, I2C_1,  right,          sensorQuadEncoderOnI2CPort,    , AutoAssign )
+#pragma config(Sensor, I2C_2,  left,           sensorNone)
 #pragma config(Motor,  port1,           pusher,        tmotorVex393HighSpeed_HBridge, openLoop)
 #pragma config(Motor,  port2,           grabber,       tmotorServoContinuousRotation, openLoop, reversed)
-#pragma config(Motor,  port3,           rightWheel,    tmotorServoContinuousRotation, openLoop, reversed)
+#pragma config(Motor,  port3,           rightWheel,    tmotorVex393_MC29, openLoop, reversed, encoderPort, I2C_1)
 #pragma config(Motor,  port4,           rightWheelTwo, tmotorServoContinuousRotation, openLoop, reversed)
-#pragma config(Motor,  port5,           leftWheel,     tmotorServoContinuousRotation, openLoop)
+#pragma config(Motor,  port5,           leftWheel,     tmotorVex393_MC29, openLoop, encoderPort, I2C_1)
 #pragma config(Motor,  port6,           raise,         tmotorServoContinuousRotation, openLoop)
 #pragma config(Motor,  port7,           leftWheelTwo,  tmotorServoContinuousRotation, openLoop)
 #pragma config(Motor,  port8,           liftOne,       tmotorServoContinuousRotation, openLoop)
@@ -97,6 +100,8 @@ void pre_auton()
 /*---------------------------------------------------------------------------*/
 
 task autonomous(){
+	nMotorEncoder[rightWheel] = 0;
+	nMotorEncoder[leftWheel] = 0;
 	if(autonSide){
 		//pick up
 		motor[grabber] = -127;
@@ -111,15 +116,17 @@ task autonomous(){
 		motor[liftTwo] = 0;
 		motor[raise] = 0;
 		//move forward
-		motor[rightWheel] = 127;
-		motor[leftWheel] = 127;
-		motor[rightWheelTwo] = 127;
-		motor[leftWheelTwo] = 127;
-		delay(2500);
+		while(nMotorEncoder[rightWheel] < 2500){
+			motor[rightWheel] = 127;
+			motor[leftWheel] = 127;
+			motor[rightWheelTwo] = 127;
+			motor[leftWheelTwo] = 127;
+	}
 		motor[rightWheel] = 0;
 		motor[leftWheel] = 0;
 		motor[rightWheelTwo] = 0;
 		motor[leftWheelTwo] = 0;
+
 		//lower XLIFT
 		motor[liftOne] = -127;
 		motor[liftTwo] = -127;
@@ -141,11 +148,14 @@ task autonomous(){
 		delay(1000);
 		motor[raise] = 0;
 		//reverse
-		motor[rightWheel] = -127;
-		motor[leftWheel] = -127;
-		motor[rightWheelTwo] = -127;
-		motor[leftWheelTwo] = -127;
-		delay(750);
+		nMotorEncoder[rightWheel] = 0;
+		nMotorEncoder[leftWheel] = 0;
+		while(nMotorEncoder[rightWheel] < -1000){
+			motor[rightWheel] = -127;
+			motor[leftWheel] = -127;
+			motor[rightWheelTwo] = -127;
+			motor[leftWheelTwo] = -127;
+		}
 		motor[rightWheel] = 0;
 		motor[leftWheel] = 0;
 		motor[rightWheelTwo] = 0;
@@ -161,11 +171,14 @@ task autonomous(){
 		motor[leftWheel] = 0;
 		motor[leftWheelTwo] = 0;
 		//forward
-		motor[rightWheel] = 60;
-		motor[leftWheel] = 60;
-		motor[rightWheelTwo] = 60;
-		motor[leftWheelTwo] = 60;
-		delay(3500);
+		nMotorEncoder[rightWheel] = 0;
+		nMotorEncoder[leftWheel] = 0;
+		while(nMotorEncoder[rightWheel] < 2500){
+			motor[rightWheel] = 60;
+			motor[leftWheel] = 60;
+			motor[rightWheelTwo] = 60;
+			motor[leftWheelTwo] = 60;
+		}
 		motor[rightWheel] = 0;
 		motor[leftWheel] = 0;
 		motor[rightWheelTwo] = 0;
@@ -175,11 +188,14 @@ task autonomous(){
 		delay(1000);
 		motor[raise] = 0;
 		//backup
-		motor[rightWheel] = -127;
-		motor[leftWheel] = -127;
-		motor[rightWheelTwo] = -127;
-		motor[leftWheelTwo] = -127;
-		delay(3000);
+		nMotorEncoder[rightWheel] = 0;
+		nMotorEncoder[leftWheel] = 0;
+		while(nMotorEncoder[rightWheel] < -3000){
+			motor[rightWheel] = -127;
+			motor[leftWheel] = -127;
+			motor[rightWheelTwo] = -127;
+			motor[leftWheelTwo] = -127;
+		}
 		motor[rightWheel] = 0;
 		motor[leftWheel] = 0;
 		motor[rightWheelTwo] = 0;
