@@ -39,7 +39,6 @@
 /*  not every time that the robot is disabled.                               */
 /*---------------------------------------------------------------------------*/
 bool autonSide = true;
-int turns = nMotorEncoder[rightWheel];
 void pre_auton()
 {
   // Set bStopTasksBetweenModes to false if you want to keep user created tasks
@@ -118,8 +117,7 @@ task autonomous(){
 		motor[raise] = 0;
 		//move forward
 		//while one of the wheels less than goal
-		while(nMotorEncoder[rightWheel] < 2500){
-			turns = nMotorEncoder[rightWheel];
+		while(nMotorEncoder[rightWheel] < 2800){
 			motor[rightWheel] = 127;
 			motor[rightWheelTwo] = 127;
 			motor[leftWheel] = 127;
@@ -133,12 +131,12 @@ task autonomous(){
 		//lower XLIFT
 		motor[liftOne] = -127;
 		motor[liftTwo] = -127;
-		delay(300);
+		delay(800);
 		motor[liftOne] = 0;
 		motor[liftTwo] = 0;
 		//drop cone
 		motor[grabber] = 127;
-		delay(200);
+		delay(300);
 		motor[grabber] = 0;
 		//raise XLIFT
 		motor[liftOne] = 127;
@@ -164,7 +162,9 @@ task autonomous(){
 		motor[rightWheelTwo] = 0;
 		motor[leftWheelTwo] = 0;
 		//turn right 90
-		while(nMotorEncoder[rightWheel] < 100){
+		nMotorEncoder[rightWheel] = 0;
+		nMotorEncoder[leftWheel] = 0;
+		while(nMotorEncoder[rightWheel] < 600){
 			motor[rightWheel] = 60;
 			motor[rightWheelTwo] = 60;
 			motor[leftWheel] = -60;
