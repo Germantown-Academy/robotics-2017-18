@@ -2,7 +2,7 @@
 #pragma config(I2C_Usage, I2C1, i2cSensors)
 #pragma config(Sensor, dgtl3,  led,            sensorLEDtoVCC)
 #pragma config(Sensor, I2C_1,  right,          sensorQuadEncoderOnI2CPort,    , AutoAssign )
-#pragma config(Sensor, I2C_2,  left,           sensorNone)
+#pragma config(Sensor, I2C_2,  left,           sensorQuadEncoderOnI2CPort,    , AutoAssign )
 #pragma config(Motor,  port1,           pusher,        tmotorVex393HighSpeed_HBridge, openLoop)
 #pragma config(Motor,  port2,           grabber,       tmotorServoContinuousRotation, openLoop, reversed)
 #pragma config(Motor,  port3,           rightWheel,    tmotorVex393_MC29, openLoop, reversed, encoderPort, I2C_1)
@@ -39,6 +39,7 @@
 /*  not every time that the robot is disabled.                               */
 /*---------------------------------------------------------------------------*/
 bool autonSide = true;
+int turns = nMotorEncoder[rightWheel];
 void pre_auton()
 {
   // Set bStopTasksBetweenModes to false if you want to keep user created tasks
@@ -117,16 +118,12 @@ task autonomous(){
 		motor[raise] = 0;
 		//move forward
 		//while one of the wheels less than goal
-		while(nMotorEncoder[rightWheel] < 2500 || nMotorEncoder[leftWheel] < 2500){
-			//if motor hasnt reached goal
-			if(nMotorEncoder[rightWheel] < 2500){
-				motor[rightWheel] = 127;
-				motor[rightWheelTwo] = 127;
-		}
-			if(nMotorEncoder[leftWheel] < 2500){
-				motor[leftWheel] = 127;
-				motor[leftWheelTwo] = 127;
-		}
+		while(nMotorEncoder[rightWheel] < 2500){
+			turns = nMotorEncoder[rightWheel];
+			motor[rightWheel] = 127;
+			motor[rightWheelTwo] = 127;
+			motor[leftWheel] = 127;
+			motor[leftWheelTwo] = 127;
 	}
 		motor[rightWheel] = 0;
 		motor[leftWheel] = 0;
@@ -156,7 +153,7 @@ task autonomous(){
 		//reverse
 		nMotorEncoder[rightWheel] = 0;
 		nMotorEncoder[leftWheel] = 0;
-		while(nMotorEncoder[rightWheel] > -1000){
+		while(nMotorEncoder[rightWheel] > -1300){
 			motor[rightWheel] = -127;
 			motor[leftWheel] = -127;
 			motor[rightWheelTwo] = -127;
@@ -167,11 +164,12 @@ task autonomous(){
 		motor[rightWheelTwo] = 0;
 		motor[leftWheelTwo] = 0;
 		//turn right 90
-		motor[rightWheel] = 60;
-		motor[rightWheelTwo] = 60;
-		motor[leftWheel] = -60;
-		motor[leftWheelTwo] = -60;
-		delay(3200);
+		while(nMotorEncoder[rightWheel] < 100){
+			motor[rightWheel] = 60;
+			motor[rightWheelTwo] = 60;
+			motor[leftWheel] = -60;
+			motor[leftWheelTwo] = -60;
+		}
 		motor[rightWheel] = 0;
 		motor[rightWheelTwo] = 0;
 		motor[leftWheel] = 0;
@@ -253,8 +251,15 @@ task usercontrol()
 
 
 		//raise and lower lift MOBILE GOAL
-		motor[raise] = deadBand(vexRT[Ch3Xmtr2]);
-		motor[raise] = deadBand(vexRT[Ch3Xmtr2]);
+		if(vexRT[Btn5U] == 1){
+			motor[raise] = 127;
+		}
+		else if(vexRT[Btn5D] == 1){
+			motor[raise] = -127;
+		}
+		else{
+			motor[raise] = 0;
+		}
 
 		//raise and lift X-LIFT in unison
 		if(vexRT[Btn7U]==1){
