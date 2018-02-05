@@ -7,7 +7,7 @@
 #pragma config(Motor,  port2,           grabber,       tmotorServoContinuousRotation, openLoop, reversed)
 #pragma config(Motor,  port3,           rightWheel,    tmotorVex393_MC29, openLoop, reversed, encoderPort, I2C_1)
 #pragma config(Motor,  port4,           rightWheelTwo, tmotorServoContinuousRotation, openLoop, reversed)
-#pragma config(Motor,  port5,           leftWheel,     tmotorVex393_MC29, openLoop, encoderPort, I2C_1)
+#pragma config(Motor,  port5,           leftWheel,     tmotorVex393_MC29, openLoop, encoderPort, I2C_2)
 #pragma config(Motor,  port6,           raise,         tmotorServoContinuousRotation, openLoop)
 #pragma config(Motor,  port7,           leftWheelTwo,  tmotorServoContinuousRotation, openLoop)
 #pragma config(Motor,  port8,           liftOne,       tmotorServoContinuousRotation, openLoop)
@@ -100,13 +100,16 @@ void pre_auton()
 /*---------------------------------------------------------------------------*/
 
 task autonomous(){
+	//motor encoder 1000 = 51"
 	nMotorEncoder[rightWheel] = 0;
 	nMotorEncoder[leftWheel] = 0;
 	if(autonSide){
 		//pick up
 		motor[grabber] = -127;
-		delay(200);
+		motor[pusher] = -127;
+		delay(400);
 		motor[grabber] = 0;
+		motor[pusher] = 0;
 		//lift
 		motor[liftOne] = 127;
 		motor[liftTwo] = 127;
@@ -117,7 +120,7 @@ task autonomous(){
 		motor[raise] = 0;
 		//move forward
 		//while one of the wheels less than goal
-		while(nMotorEncoder[rightWheel] < 2800){
+		while(nMotorEncoder[rightWheel] < 1350){
 			motor[rightWheel] = 127;
 			motor[rightWheelTwo] = 127;
 			motor[leftWheel] = 127;
@@ -141,7 +144,7 @@ task autonomous(){
 		//raise XLIFT
 		motor[liftOne] = 127;
 		motor[liftTwo] = 127;
-		delay(300);
+		delay(500);
 		motor[liftOne] = 0;
 		motor[liftTwo] = 0;
 		//pick mobile goal
@@ -151,7 +154,7 @@ task autonomous(){
 		//reverse
 		nMotorEncoder[rightWheel] = 0;
 		nMotorEncoder[leftWheel] = 0;
-		while(nMotorEncoder[rightWheel] > -1300){
+		while(nMotorEncoder[rightWheel] > -900){
 			motor[rightWheel] = -127;
 			motor[leftWheel] = -127;
 			motor[rightWheelTwo] = -127;
@@ -164,11 +167,11 @@ task autonomous(){
 		//turn right 90
 		nMotorEncoder[rightWheel] = 0;
 		nMotorEncoder[leftWheel] = 0;
-		while(nMotorEncoder[rightWheel] < 600){
-			motor[rightWheel] = 60;
-			motor[rightWheelTwo] = 60;
-			motor[leftWheel] = -60;
-			motor[leftWheelTwo] = -60;
+		while(nMotorEncoder[rightWheel] > -850){
+			motor[rightWheel] = -60;
+			motor[rightWheelTwo] = -60;
+			motor[leftWheel] = 60;
+			motor[leftWheelTwo] = 60;
 		}
 		motor[rightWheel] = 0;
 		motor[rightWheelTwo] = 0;
@@ -177,11 +180,11 @@ task autonomous(){
 		//forward
 		nMotorEncoder[rightWheel] = 0;
 		nMotorEncoder[leftWheel] = 0;
-		while(nMotorEncoder[rightWheel] < 2500){
-			motor[rightWheel] = 60;
-			motor[leftWheel] = 60;
-			motor[rightWheelTwo] = 60;
-			motor[leftWheelTwo] = 60;
+		while(nMotorEncoder[rightWheel] < 1000){
+			motor[rightWheel] = 127;
+			motor[leftWheel] = 127;
+			motor[rightWheelTwo] = 127;
+			motor[leftWheelTwo] = 127;
 		}
 		motor[rightWheel] = 0;
 		motor[leftWheel] = 0;
@@ -189,17 +192,21 @@ task autonomous(){
 		motor[leftWheelTwo] = 0;
 		//drop
 		motor[raise] = -127;
+		motor[pusher] = 127;
 		delay(1000);
 		motor[raise] = 0;
+		motor[pusher] = 0;
 		//backup
 		nMotorEncoder[rightWheel] = 0;
 		nMotorEncoder[leftWheel] = 0;
-		while(nMotorEncoder[rightWheel] > -3000){
+		while(nMotorEncoder[rightWheel] > -1000){
 			motor[rightWheel] = -127;
 			motor[leftWheel] = -127;
 			motor[rightWheelTwo] = -127;
 			motor[leftWheelTwo] = -127;
+			motor[pusher] = -127;
 		}
+		motor[pusher] = 0;
 		motor[rightWheel] = 0;
 		motor[leftWheel] = 0;
 		motor[rightWheelTwo] = 0;
