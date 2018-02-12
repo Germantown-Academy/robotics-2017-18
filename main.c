@@ -256,6 +256,30 @@ task usercontrol()
 		motor[leftWheel] = deadBand(vexRT[Ch2]) + deadBand(vexRT[Ch1]) + deadBand(vexRT[Ch4]);
 		motor[leftWheelTwo] = deadBand(vexRT[Ch2]) + deadBand(vexRT[Ch1]) + deadBand(vexRT[Ch4]);
 
+		if(vexRT[Btn8U] == 1){
+			motor[rightWheel] = 127;
+			motor[rightWheelTwo] = 127;
+			motor[leftWheel] = 127;
+			motor[leftWheelTwo] = 127;
+		}
+		else if(vexRT[Btn8D] == 1){
+			motor[rightWheel] = -127;
+			motor[rightWheelTwo] = -127;
+			motor[leftWheel] = -127;
+			motor[leftWheelTwo] = -127;
+		}
+		else if(vexRT[Btn8R] == 1){
+			motor[rightWheel] = -127;
+			motor[rightWheelTwo] = -127;
+			motor[leftWheel] = 127;
+			motor[leftWheelTwo] = 127;
+		}
+		else if(vexRT[Btn8L] == 1){
+			motor[rightWheel] = 127;
+			motor[rightWheelTwo] = 127;
+			motor[leftWheel] = -127;
+			motor[leftWheelTwo] = -127;
+		}
 
 		//raise and lower lift MOBILE GOAL
 		if(vexRT[Btn5U] == 1){
