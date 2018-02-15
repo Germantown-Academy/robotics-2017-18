@@ -308,6 +308,12 @@ task usercontrol()
 		else if(vexRT[Btn8RXmtr2]==1){
 			motor[liftTwo] = 127;
 		}
+		else if(vexRT[Btn7LXmtr2]==1){
+			motor[liftOne] = -127;
+		}
+		else if(vexRT[Btn7RXmtr2]==1){
+			motor[liftTwo] = -127;
+		}
 
 		//x-lift joy stick
 		else{
