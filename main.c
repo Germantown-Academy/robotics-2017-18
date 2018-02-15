@@ -105,10 +105,8 @@ task autonomous(){
 	nMotorEncoder[leftWheel] = 0;
 	if(autonSide){
 		//pick up
-		motor[grabber] = -127;
 		motor[pusher] = -127;
-		delay(400);
-		motor[grabber] = 0;
+		delay(600);
 		motor[pusher] = 0;
 		//lift
 		motor[liftOne] = 127;
@@ -139,7 +137,7 @@ task autonomous(){
 		motor[liftTwo] = 0;
 		//drop cone
 		motor[grabber] = 127;
-		delay(300);
+		delay(600);
 		motor[grabber] = 0;
 		//raise XLIFT
 		motor[liftOne] = 127;
@@ -227,7 +225,7 @@ task autonomous(){
 
 //DEADBAND
 int deadBand(int val){
-	if(fabs(val) <= 10){
+	if(fabs(val) <= 20){
 		return(0);
 	}else{
 		return(val);
