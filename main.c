@@ -166,7 +166,7 @@ task autonomous(){
 		//forward
 		nMotorEncoder[rightWheel] = 0;
 		nMotorEncoder[leftWheel] = 0;
-		while(nMotorEncoder[rightWheel] < 1000){
+		while(nMotorEncoder[rightWheel] < 1100){
 			motor[rightWheel] = 127;
 			motor[leftWheel] = 127;
 			motor[rightWheelTwo] = 127;
@@ -175,6 +175,19 @@ task autonomous(){
 		motor[rightWheel] = 0;
 		motor[leftWheel] = 0;
 		motor[rightWheelTwo] = 0;
+		motor[leftWheelTwo] = 0;
+		//turn right a bit
+		nMotorEncoder[rightWheel] = 0;
+		nMotorEncoder[leftWheel] = 0;
+		while(nMotorEncoder[rightWheel] > -50){
+			motor[rightWheel] = -60;
+			motor[rightWheelTwo] = -60;
+			motor[leftWheel] = 60;
+			motor[leftWheelTwo] = 60;
+		}
+		motor[rightWheel] = 0;
+		motor[rightWheelTwo] = 0;
+		motor[leftWheel] = 0;
 		motor[leftWheelTwo] = 0;
 		//push out mobile goal
 		motor[pusher] = 127;
