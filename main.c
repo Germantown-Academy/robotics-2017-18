@@ -133,10 +133,22 @@ task autonomous(){
 		motor[raise] = 127;
 		delay(1000);
 		motor[raise] = 0;
+		//drop x lift
+		motor[liftOne] = -127;
+		motor[liftTwo] = -127;
+		delay(100);
+		motor[liftOne] = 0;
+		motor[liftTwo] = 0;
 		//drop cone
 		motor[grabber] = 127;
-		delay(1000);
+		delay(200);
 		motor[grabber] = 0;
+		//lift
+		motor[liftOne] = 127;
+		motor[liftTwo] = 127;
+		delay(200);
+		motor[liftOne] = 0;
+		motor[liftTwo] = 0;
 		//reverse
 		nMotorEncoder[rightWheel] = 0;
 		nMotorEncoder[leftWheel] = 0;
@@ -191,18 +203,22 @@ task autonomous(){
 		motor[leftWheelTwo] = 0;
 		//push out mobile goal
 		motor[pusher] = 127;
+		motor[raise] = -127;
 		delay(2000);
+		motor[raise] = 0;
 		motor[pusher] = 0;
 		//backup
 		nMotorEncoder[rightWheel] = 0;
 		nMotorEncoder[leftWheel] = 0;
 		while(nMotorEncoder[rightWheel] > -500){
+			motor[raise] = 127;
 			motor[rightWheel] = -127;
 			motor[leftWheel] = -127;
 			motor[rightWheelTwo] = -127;
 			motor[leftWheelTwo] = -127;
 			motor[pusher] = -127;
 		}
+		motor[raise] = 0;
 		motor[pusher] = 0;
 		motor[rightWheel] = 0;
 		motor[leftWheel] = 0;
