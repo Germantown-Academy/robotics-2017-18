@@ -118,7 +118,7 @@ task autonomous(){
 		motor[raise] = 0;
 		//move forward
 		//while one of the wheels less than goal
-		while(nMotorEncoder[rightWheel] < 1350){
+		while(nMotorEncoder[rightWheel] < 1450){
 			motor[rightWheel] = 127;
 			motor[rightWheelTwo] = 127;
 			motor[leftWheel] = 127;
