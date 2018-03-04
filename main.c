@@ -118,7 +118,7 @@ task autonomous(){
 		motor[raise] = 0;
 		//move forward
 		//while one of the wheels less than goal
-		while(nMotorEncoder[rightWheel] < 1450){
+		while(nMotorEncoder[rightWheel] < 1600){
 			motor[rightWheel] = 127;
 			motor[rightWheelTwo] = 127;
 			motor[leftWheel] = 127;
@@ -152,7 +152,7 @@ task autonomous(){
 		//reverse
 		nMotorEncoder[rightWheel] = 0;
 		nMotorEncoder[leftWheel] = 0;
-		while(nMotorEncoder[rightWheel] > -900){
+		while(nMotorEncoder[rightWheel] > -1000){
 			motor[rightWheel] = -127;
 			motor[leftWheel] = -127;
 			motor[rightWheelTwo] = -127;
@@ -204,7 +204,7 @@ task autonomous(){
 		//push out mobile goal
 		motor[pusher] = 127;
 		motor[raise] = -127;
-		delay(2000);
+		delay(1700);
 		motor[raise] = 0;
 		motor[pusher] = 0;
 		//backup
